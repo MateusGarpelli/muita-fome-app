@@ -1,6 +1,5 @@
-import { Image, ImageProps, Text, Touchable, TouchableOpacity, TouchableOpacityProps, View } from "react-native";
+import { Image, ImageProps, Text, TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 import { forwardRef } from "react";
-
 
 type ProductDataProps = {
     title: string;
@@ -15,17 +14,24 @@ type ProductProps = TouchableOpacityProps & {
 
 export const Product = forwardRef<TouchableOpacity, ProductProps>(({ data, ...rest }, ref) => {
     return (
-        <TouchableOpacity className="w-full flex-row items-center pb-4" {...rest} ref={ref}>
-            <Image source={data.thumbnail} className=" w-20 h-20 rounded-md " />
+        <TouchableOpacity
+            style={{ width: "100%", flexDirection: "row", alignItems: "center", paddingBottom: 4 }}
+            {...rest}
+            ref={ref}
+        >
+            <Image
+                source={data.thumbnail}
+                style={{ width: 80, height: 80, borderRadius: 8, marginTop:4 }}
+            />
 
-            <View className="flex-1 ml-3 ">
-                <View className="flex-row items-center ">
-                    <Text className="text-slate-100 font-subtitle text-base flex-1 ">
+            <View style={{ flex: 1, marginLeft: 12 }}>
+                <View style={{ flexDirection: "row", alignItems: "center", marginVertical:5}}>
+                    <Text style={{ color: "#FFFFFF", fontSize: 16 }}>
                         {data.title}
                     </Text>
-                    
                 </View>
-                <Text className="text-slate-400 text-xs leading-5 mt-0.5 ">
+                
+                <Text style={{ color: "#CBD5E0", fontSize: 12, marginVertical:6 }}>
                     {data.description}
                 </Text>
             </View>

@@ -32,26 +32,26 @@ export const Product = () => {
     }
 
     return (
-        <View className="flex-1">
-            <Image className="w-full  h-52 " resizeMode="cover" source={product.cover}></Image>
-            <View className=" p-5 mt-8 flex-1">
-                <Text className="text-white text-xl font-heading">{product.title}</Text>
+        <View style={{flex:1}}>
+            <Image style={{height:208, width:"100%"}} resizeMode="cover" source={product.cover}></Image>
+            <View style={{padding:20, marginTop: 32, flex:1 }}>
+                <Text style={{color:"white",fontSize:20, fontWeight:"600", }}>{product.title}</Text>
                 
-                <Text className="text-lime-400 text-2xl font-heading my-2  ">
+                <Text style={{marginVertical:8, fontWeight:"600", color:"#12a44d",fontSize:24 }}>
                     {format(product.price)}
                 </Text>
-                <Text>
+                <Text style={{color:"white", fontWeight:"400"}}>
                     {product.description}
                 </Text>
                 {product.ingredients.map((ingredient) => (
-                    <Text key={ingredient} className="text-slate-400 font-body text-base leading-6">
-
+                    <Text key={ingredient} style={{color:"#AAA", fontSize:16, fontWeight:"400",lineHeight:24 }}>
+                                            
                         {"\u2022"} {ingredient}
 
                     </Text>
                 ))}
 
-                <View className="p-5 pb-8 gap-5">
+                <View style={{padding:20, paddingBottom:32, gap:20}}>
                     <Button onPress={handleAddToCart}>
                         <Button.Icon>
                             <Feather name="plus-circle" size={20} />

@@ -13,7 +13,7 @@ export default function Layout(){
     }
 
     return (
-    <SafeAreaView className="bg-slate-900 flex-1">
+    <SafeAreaView style={{flex:1, backgroundColor:"#0f172a" }}>
         <Slot/>
     </SafeAreaView>
     )

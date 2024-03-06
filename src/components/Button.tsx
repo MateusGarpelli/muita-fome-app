@@ -15,15 +15,15 @@ type PropsIcon =  {
 
 export const Button = ({ children, ...rest }: Props) => {
     return (
-        <TouchableOpacity className="h-12 bg-lime-400 rounded-md items-center justify-center flex-row" activeOpacity={0.7} {...rest}>
-            {children}
+        <TouchableOpacity style={{height:48, borderRadius:6, alignItems:"center", justifyContent:"center", flexDirection:"row", backgroundColor:"#10ad15"}} activeOpacity={0.7} {...rest}>
+            {children} 
         </TouchableOpacity>
     )
 }
 
 const ButtonText = ({ children,}: PropsText) => {
     return(
-        <Text className="text-black font-heading text-base mx-2 ">
+        <Text style={{color:"black", fontWeight:"600", fontSize:16, marginHorizontal:8}}>
             {children}
         </Text>
     )

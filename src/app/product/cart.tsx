@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import { Alert, ScrollView, Text, View,Linking } from "react-native";
+import { Alert, ScrollView, Text, View, Linking } from "react-native";
 
 import { Product } from "@/components/Product";
 
@@ -14,22 +14,22 @@ import { LinkButton } from "@/components/LinkButton";
 import { useState } from "react";
 import { useNavigation } from "expo-router";
 
-    const PHONE_NUMBER = "5515996030832"
+const PHONE_NUMBER = "5515996030832"
 
 export const cart = () => {
     const cartStore = useCartStore();
     const navigation = useNavigation();
 
-    const [address,setAdress] = useState("")
+    const [address, setAdress] = useState("")
 
     const total = format(cartStore.products.reduce((total, product) => total + product.price * 1, 0));
 
 
-    const handleProductRemove = (product:ProductCartProps) => {
+    const handleProductRemove = (product: ProductCartProps) => {
         Alert.alert("Remover", `Deseja remover ${product.title} do carrinho?`, [
             {
-                text:"Cancelar"
-            } ,
+                text: "Cancelar"
+            },
             {
                 text: "Remover",
                 onPress: () => cartStore.remove(product.id),
@@ -37,15 +37,17 @@ export const cart = () => {
         ])
     }
 
+    const products = cartStore.products.map((product) => `\n 1 ${product.title}`).join("")
 
     const handleOrder = () => {
-        if (address.trim().length === 0 ) {
+        if (address.trim().length === 0) {
             return Alert.alert("pedido", "Informe os dados da entrega.")
+        } else if (products.length === 0) {
+            return Alert.alert("pedido", "Adicione algum elemento ao carrinho")
         }
 
-        const products = cartStore.products.map((product) => `\n ${product.quantity} ${product.title}`).join("")
 
-    
+
         const message = `
         🍔  NOVO PEDIDO
             \n Entregar em ${address}
@@ -55,7 +57,7 @@ export const cart = () => {
             \n Valor total: ${total} 
         `
         Linking.openURL(`http://api.whatsapp.com/send?phone=${PHONE_NUMBER}&text=${message}`)
-        
+
         cartStore.clear()
 
         navigation.goBack()
@@ -63,52 +65,52 @@ export const cart = () => {
 
     return (
 
-        <View className="flex-1 pt-8">
+        <View style={{ flex: 1, paddingTop: 32 }}>
             <KeyboardAwareScrollView showsVerticalScrollIndicator={false} extraHeight={Inter_100Thin}>
-                    <Header title="Seu Carrinho" cartQuantity={1} />
+                <Header title="Seu Carrinho" cartQuantity={1} />
                 <ScrollView>
-
-                    <View className="p-5 flex-1 ">
-                    {cartStore.products.length > 0 ? (
-                        <View className="border-b border-slate-700"> 
+                    <View style={{ padding: 20, flex: 1 }}>
+                        {cartStore.products.length > 0 ? (
+                        <View style={{ borderBottomWidth:1,borderColor:"#808080" }}>
                             {cartStore.products.map((product) => (
                                 <Product key={product.id} data={product} onPress={() => handleProductRemove(product)} />
                             ))}
                         </View>
-                    ) : (
-                        <Text className="font-body text-slate-400 text-center my-8 ">
+                        ) : (
+                        <Text style={{fontWeight:"400", textAlign:"center", marginVertical:32, color:"#AAA"}} >
                             Seu carrinho está vazio
                         </Text>
                     )}
-                    <View className="flex-row gap-2 items-center mt-5 mb-4 ">
-                        <Text className="text-white text-xl font-subtitle">Total:</Text>
+                        <View style={{flexDirection:"row", gap:8, alignItems:"center", marginTop:20, marginBottom:16}}>
+                            <Text style={{color:"white", fontSize:20,fontWeight:"500" }}>Total:</Text>
+                            
+                            <Text style={{fontWeight:"600", color:"#12a44d",fontSize:24}}>{total}</Text>
+                        </View>
 
-                        <Text className="text-lime-400 text-2xl font-heading">{total}</Text>
-                    </View>
-
-                    <Input placeholder="Informe o endereço de entrega com rua, CEP, Bairro, número e complemento" 
-                    onChangeText={setAdress}
-                    blurOnSubmit={true}
-                    onSubmitEditing={handleOrder}
-                    returnKeyType="next"
-                    />
+                        <Input placeholder="Informe o endereço de entrega com rua, CEP, Bairro, número e complemento"
+                            onChangeText={setAdress}
+                            onSubmitEditing={handleOrder}
+                            returnKeyType="next"
+                            style={{height:36, color:"white"}}
+                            
+                        />
                     </View>
                 </ScrollView>
             </KeyboardAwareScrollView>
-                
-                <View className="p-5 gap-5 ">
-                    <Button onPress={handleOrder}>
-                        <Button.Text>
-                            Enviar pedido
-                            <Button.Icon>
-                                <Feather name="arrow-right-circle" size={20}/>
-                            </Button.Icon>
-                        </Button.Text>
-                    </Button>
 
-                        <LinkButton  title="Voltar ao cardápio" href="/"/>
+            <View style={{padding:20, gap:20}}>
+                <Button onPress={handleOrder}>
+                    <Button.Text>
+                        Enviar pedido
+                        <Button.Icon >
+                            <Feather name="arrow-right-circle" size={20} style={{}} />
+                        </Button.Icon>
+                    </Button.Text>
+                </Button>
 
-                </View>
+                <LinkButton title="Voltar ao cardápio"  href="/"/>
+
+            </View>
 
         </View>
     )
